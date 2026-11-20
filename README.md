@@ -3,6 +3,15 @@
 調べたことや手順を、専門知識のない人でも読める HTML ファイル1枚の資料にするスキルです。
 Agent Skills の形式で書いてあり、ChatGPT の Codex や Claude Code で使えます。
 
+<p>
+<img src="examples/screenshot-pc.png" alt="パソコンで開いた見本の資料。題名、要点の囲み、目次、年表が並んでいる" width="520">
+<img src="examples/screenshot-phone.png" alt="スマートフォンで開いた見本の資料。年表が画面の幅に収まっている" width="240">
+</p>
+
+上の画面は、このスキルだけを入れた AI に「赤坂離宮に関する資料を作って」とだけ頼んで出来た資料です。
+ほかの指示や設定は何も渡していません。
+資料そのものは [`examples/akasaka-palace.html`](examples/akasaka-palace.html) にあり、ダウンロードしてブラウザで開くと見られます。
+
 ## できること
 
 - 結論・目次・本文・出典の順に並んだ、白を基調にした資料を作ります
@@ -17,6 +26,7 @@ Agent Skills の形式で書いてあり、ChatGPT の Codex や Claude Code で
 |---|---|
 | `yp-explainer-html/SKILL.md` | AI が読む手順書。書き方・図の使い方・渡す前の確認 |
 | `yp-explainer-html/assets/template.html` | 資料のひな形。見た目（CSS）と、囲み・表・年表などの HTML の書き方が入っている |
+| `examples/` | 見本の資料と、その画面の写真。スキルを使うときには要らない |
 
 ## 入れ方
 
@@ -35,6 +45,12 @@ github.com/YoyogiPinball/yp-explainer-html の yp-explainer-html フォルダー
 「〇〇について資料にまとめて」「この手順を HTML の資料にして」のように頼みます。
 保存する場所を言わなければ、いま開いているフォルダーに保存されます。
 文章を整える yomiyasu（https://github.com/nanaism/yomiyasu ）も入れておくと、仕上げに使われます。
+
+## 見本について
+
+見本の資料は AI が作ったままのものです。
+年・建築家・国宝の指定・和風別館の設計者は、[内閣府の迎賓館赤坂離宮のページ](https://www.geihinkan.go.jp/akasaka/about/)と照らしてあります。
+参観の日程や料金など、そのほかの内容は公式の案内で確かめてください。
 
 ## ライセンス
 

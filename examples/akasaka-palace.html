@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>迎賓館赤坂離宮</title>
+<style>
+/* yp-explainer-html のひな形。この <style> は書き換えない。足すのは、その資料だけで使う指定に限る */
+:root {
+  --bg:#FFFFFF; --paper:#FFFFFF; --ink:#1F2024; --ink-2:#4A4B52; --ink-3:#6E7079;
+  --rule:#E3E0D8; --rule-2:#C9C5BA; --code-bg:#F2F0EA;
+  --c-end:#0B6E7A;   --bg-end:#E8F6F7;    /* 結論 */
+  --c-check:#8A6100; --bg-check:#FFF5D6;  /* 確認してほしいこと */
+  --c-warn:#B4332B;  --bg-warn:#FDEDEB;   /* 注意 */
+  --c-note:#5B5E68;  --bg-note:#F2F2F0;   /* 補足 */
+  --c-step:#1F2024;  --bg-step:#F6F4EE;   /* 手順 */
+  --c-next:#6A3FB0;  --bg-next:#F3EEFB;   /* 次にやること */
+  --c-info:#1F5FBF;  --bg-info:#EAF1FC;
+  --mark:#FFE58A;
+  --pre-bg:#22232A; --pre-fg:#E6E3DA;
+  color-scheme:light;
+  --font:-apple-system, BlinkMacSystemFont, "Hiragino Sans", "Hiragino Kaku Gothic ProN",
+         "Yu Gothic UI", "Yu Gothic", Meiryo, "Noto Sans JP", "Segoe UI", sans-serif;
+  --mono:ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+}
+* { box-sizing:border-box; }
+html { font-size:17px; -webkit-text-size-adjust:100%; background:var(--bg); }
+body { margin:0; font-family:var(--font); color:var(--ink); background:var(--bg); line-height:1.85;
+  letter-spacing:.01em; overflow-wrap:anywhere; }
+.wrap { max-width:780px; margin:0 auto; padding:0 20px 3rem; }
+p, li, dd, td, th, figcaption { word-break:auto-phrase; }
+
+/* 見出し */
+.page-head { padding:2.2rem 0 1.4rem; border-bottom:2px solid var(--ink); margin-bottom:2rem; }
+.page-head .meta { margin:0 0 .4rem; font-size:.9rem; color:var(--ink-3); }
+.page-head h1 { font-size:1.7rem; line-height:1.45; margin:0; font-weight:800; }
+.page-head .sub { margin:.5rem 0 0; color:var(--ink-2); }
+h2 { font-size:1.32rem; line-height:1.5; margin:3rem 0 1rem; padding-bottom:.35rem; border-bottom:1px solid var(--rule-2); }
+h2::before { content:'▌'; color:var(--c-end); margin-right:.2rem; }
+h3 { font-size:1.08rem; line-height:1.5; margin:2rem 0 .6rem; }
+p { margin:0 0 1.05rem; }
+ul, ol { margin:0 0 1.05rem; padding-left:1.5rem; } li { margin:.25rem 0; }
+a { color:var(--c-info); text-decoration:underline; text-underline-offset:2px; }
+strong { font-weight:700; background:linear-gradient(transparent 62%, var(--mark) 62%); }
+code { font-family:var(--mono); font-size:.86em; background:var(--code-bg); padding:.08em .35em; border-radius:3px; }
+pre { background:var(--pre-bg); color:var(--pre-fg); padding:.9rem 1rem; border-radius:4px; overflow-x:auto;
+  white-space:pre-wrap; font-size:.9rem; line-height:1.7; margin:1rem 0 1.2rem; }
+pre code { background:none; padding:0; color:inherit; font-size:1em; }
+
+/* 目次 */
+.toc { border:1px solid var(--rule); border-radius:4px; padding:.8rem 1.2rem .2rem; margin:0 0 2rem; }
+.toc-t { margin:0 0 .3rem; font-weight:700; font-size:.92rem; color:var(--ink-2); }
+
+/* 囲み */
+.box { border-left:4px solid var(--k); background:var(--kb); padding:.75rem 1rem .1rem; margin:1.3rem 0; border-radius:0 4px 4px 0; }
+.box-h { margin:0 0 .4rem; font-weight:700; color:var(--k); font-size:.92rem; }
+.box-end   { --k:var(--c-end);   --kb:var(--bg-end); }
+.box-check { --k:var(--c-check); --kb:var(--bg-check); }
+.box-warn  { --k:var(--c-warn);  --kb:var(--bg-warn); }
+.box-note  { --k:var(--c-note);  --kb:var(--bg-note); font-size:.94rem; }
+.box-step  { --k:var(--c-step);  --kb:var(--bg-step); }
+.box-next  { --k:var(--c-next);  --kb:var(--bg-next); }
+
+/* 表。縦罫なしで上下だけ太線。はみ出す時だけ横にスクロールする */
+.tbl { overflow-x:auto; -webkit-overflow-scrolling:touch; margin:1.1rem 0 1.4rem; }
+table { border-collapse:collapse; font-size:.92rem; line-height:1.65; }
+table.full { width:100%; }
+th, td { padding:.45rem .8rem; text-align:left; vertical-align:top; border-bottom:1px solid var(--rule); }
+thead th { border-top:2px solid var(--ink); border-bottom:1px solid var(--ink); font-weight:700; }
+tbody th { font-weight:700; min-width:6em; }
+tr:last-child td, tr:last-child th { border-bottom:2px solid var(--ink); }
+
+/* 図の入れ物。中身は SVG・下の部品・画像のどれでもよい */
+figure { margin:1.5rem 0; }
+figcaption { font-size:.9rem; color:var(--ink-3); margin-top:.4rem; }
+figure svg { display:block; width:100%; height:auto; font-family:var(--font); }
+figure img { display:block; max-width:100%; height:auto; margin:0 auto; }
+.credit { font-size:.9rem; color:var(--ink-3); }
+
+/* 部品：縦の流れ図。矢印は文字なので、CSS が効かなくても順番は読める */
+.flow { padding:.9rem 1rem; border:1px solid var(--rule); border-radius:4px; }
+.flow-node { border:1px solid var(--rule-2); border-radius:3px; padding:.45rem .75rem; background:var(--bg-step); }
+.flow-name { font-weight:700; display:block; }
+.flow-sub { display:block; font-size:.9rem; color:var(--ink-3); }
+.flow-arrow { text-align:center; color:var(--ink-3); font-size:.9rem; padding:.2rem 0; }
+
+/* 部品：年表 */
+.timeline { list-style:none; margin:0; padding:.2rem 0 .2rem 1.4rem; border-left:3px solid var(--c-end); }
+.timeline li { position:relative; margin:0 0 .9rem; }
+.timeline li::before { content:''; position:absolute; left:-1.4rem; top:.55em; width:.8rem; height:.8rem;
+  margin-left:-.55rem; border-radius:50%; background:var(--bg); border:3px solid var(--c-end); }
+.timeline .when { display:block; font-weight:700; color:var(--c-end); }
+
+/* 部品：横に並べて比べるカード。狭い画面では縦に並ぶ */
+.cards { display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:.8rem; }
+.card { border:1px solid var(--rule-2); border-radius:4px; padding:.7rem .9rem; }
+.card-t { margin:0 0 .3rem; font-weight:700; }
+
+/* 手順 */
+ol.steps { padding-left:1.6rem; } ol.steps li { margin:0 0 .6rem; }
+
+/* 折りたたみ */
+details.fold { border:1px solid var(--rule); border-radius:4px; margin:1.1rem 0; }
+details.fold > summary { cursor:pointer; padding:.6rem .9rem; font-weight:600; color:var(--ink-2); }
+details.fold > div { padding:0 .9rem; }
+
+.src { font-size:.9rem; color:var(--ink-2); }
+
+@media (max-width:640px) {
+  html { font-size:16px; }
+  .wrap { padding:0 14px 3rem; }
+  .page-head h1 { font-size:1.4rem; }
+  h2 { font-size:1.18rem; }
+}
+@media print {
+  .box, .tbl, figure, pre, details, .card, .timeline li, ol.steps li, tr { break-inside:avoid; }
+  h2, h3, .box-h { break-after:avoid; }
+  p { orphans:2; widows:2; }
+  a { color:inherit; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="page-head">
+<h1>迎賓館赤坂離宮</h1>
+<p class="sub">皇太子のために建てられた宮殿が、国の迎賓館になるまで</p>
+</header>
+<main>
+<div class="box box-end">
+<p class="box-h">赤坂離宮とは</p>
+<p>迎賓館赤坂離宮（げいひんかん あかさかりきゅう）は、東京都港区元赤坂にある国の迎賓施設です。<br>明治時代に建てられた洋風宮殿で、現在は外国の国王や大統領などを迎え、首脳会談や晩餐会（ばんさんかい）を開きます。</p>
+</div>
+<nav class="toc" aria-label="目次"><p class="toc-t">目次</p><ol>
+<li><a href="#history">皇太子の住まいから外交の舞台へ</a></li>
+<li><a href="#design">西洋式の宮殿に日本の意匠が息づく</a></li>
+<li><a href="#diplomacy">洋風の本館と和風の別館で賓客を迎える</a></li>
+<li><a href="#visit">外交行事に支障のない日に参観できる</a></li>
+</ol></nav>
+<h2 id="history">皇太子の住まいから外交の舞台へ</h2>
+<p>なぜ迎賓館が宮殿の姿をしているのでしょうか。<br>もともとは、のちの大正天皇となる皇太子のために建てられた東宮御所（とうぐうごしょ）だったからです。<br>建築家の片山東熊（かたやま とうくま）が設計を指揮しました。</p>
+<p>戦後は国立国会図書館などが使用しました。<br>その後、外国からの賓客を迎えるために改修され、建物の役割が変わりました。</p>
+<figure><ol class="timeline">
+<li><span class="when">1909年（明治42年）</span>皇太子の住まいとして東宮御所が完成。</li>
+<li><span class="when">1974年（昭和49年）</span>建築家の村野藤吾（むらの とうご）が監修した改修を経て、迎賓館として開館。</li>
+<li><span class="when">2009年（平成21年）</span>本館や正門、主庭の噴水池などが国宝に指定される。</li>
+</ol><figcaption>建物の完成から迎賓館への転用、国宝指定までの流れです。</figcaption></figure>
+<h2 id="design">西洋式の宮殿に日本の意匠が息づく</h2>
+<p>本館は、曲線や華やかな装飾を使う西洋のネオ・バロック様式で建てられました。<br>正面から見ると建物の左右が弧を描くように前へ張り出しています。<br>屋根や室内の壁、天井に注目すると、日本の題材が見えてきます。</p>
+<figure><div class="cards">
+<div class="card"><p class="card-t">正面の屋根</p><p>中央に鎧（よろい）を着た武者の像があります。</p></div>
+<div class="card"><p class="card-t">花鳥（かちょう）の間</p><p>壁に花や鳥を描いた七宝額が並びます。<br>七宝は金属にガラス質の釉薬（ゆうやく）を焼き付ける工芸です。</p></div>
+<div class="card"><p class="card-t">羽衣（はごろも）の間</p><p>かつての舞踏室で、天井画は能の演目「羽衣」を題材にしています。</p></div>
+</div><figcaption>外観と室内の両方に、日本の題材を使った装飾があります。</figcaption></figure>
+<h2 id="diplomacy">洋風の本館と和風の別館で賓客を迎える</h2>
+<p>迎賓館は、外国からの大切な客を政府が公式に迎える場所です。<br>会談や歓迎行事のほか、賓客の宿泊にも使われます。<br>敷地には本館と、迎賓館への改修に合わせて新設された和風別館があります。</p>
+<figure><div class="cards">
+<div class="card"><p class="card-t">本館</p><p>明治時代に建てられた洋風宮殿です。<br>首脳会談や公式の食事会などに使われます。</p></div>
+<div class="card"><p class="card-t">和風別館「游心亭（ゆうしんてい）」</p><p>建築家の谷口吉郎（たにぐち よしろう）が設計しました。<br>和の空間で日本らしいもてなしを行うための建物です。</p></div>
+</div><figcaption>同じ敷地に、洋風と和風の異なる迎賓空間があります。</figcaption></figure>
+<h2 id="visit">外交行事に支障のない日に参観できる</h2>
+<p>所在地は東京都港区元赤坂2丁目1番1号で、最寄りは四ツ谷駅です。<br>外交行事などによって公開日や見学できる範囲が変わります。</p>
+<div class="box box-check">
+<p class="box-h">参観前に確認すること</p>
+<p>公開日、見学コース、予約の要否、料金、当日の入口を公式サイトで確認してください。</p>
+<p><a href="https://www.geihinkan.go.jp/akasaka/">内閣府「迎賓館赤坂離宮」公式サイト</a></p>
+</div>
+<p class="src">個別の公開日や料金は未確認です。</p>
+<h2>出典</h2>
+<ul class="src">
+<li><a href="https://www.mlit.go.jp/gobuild/history_geihinkan.html">国土交通省「迎賓館」</a>（建設と改修）</li>
+<li><a href="https://kunishitei.bunka.go.jp/heritage/detail/102/00004367">文化庁「旧東宮御所（迎賓館赤坂離宮）」</a>（国宝指定と建築の価値）</li>
+<li><a href="https://www.magazine.mlit.go.jp/interview/vol24-b-1/">国土交通省「明治期の最高峰建築を支える技術と人」</a>（本館の外観と装飾）</li>
+<li><a href="https://www.cao.go.jp/about/doc/30.pdf">内閣府「迎賓館赤坂離宮及び京都迎賓館」</a>（外交上の役割）</li>
+<li><a href="https://www.gov-online.go.jp/eng/publicity/book/hlj/html/202009/202009_09_jp.html">政府広報オンライン「迎賓館の一般公開」</a>（別館と参観）</li>
+<li><a href="https://www.gotokyo.org/jp/spot/1695/index.html">東京の観光公式サイト「迎賓館赤坂離宮」</a>（所在地とアクセス）</li>
+</ul>
+</main></div></body></html>
