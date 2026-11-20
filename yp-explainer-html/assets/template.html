@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{{題名}}</title>
+<style>
+/* yp-explainer-html のひな形。この <style> は書き換えない。足すのは、その資料だけで使う指定に限る */
+:root {
+  --bg:#FFFFFF; --paper:#FFFFFF; --ink:#1F2024; --ink-2:#4A4B52; --ink-3:#6E7079;
+  --rule:#E3E0D8; --rule-2:#C9C5BA; --code-bg:#F2F0EA;
+  --c-end:#0B6E7A;   --bg-end:#E8F6F7;    /* 結論 */
+  --c-check:#8A6100; --bg-check:#FFF5D6;  /* 確認してほしいこと */
+  --c-warn:#B4332B;  --bg-warn:#FDEDEB;   /* 注意 */
+  --c-note:#5B5E68;  --bg-note:#F2F2F0;   /* 補足 */
+  --c-step:#1F2024;  --bg-step:#F6F4EE;   /* 手順 */
+  --c-next:#6A3FB0;  --bg-next:#F3EEFB;   /* 次にやること */
+  --c-info:#1F5FBF;  --bg-info:#EAF1FC;
+  --mark:#FFE58A;
+  --pre-bg:#22232A; --pre-fg:#E6E3DA;
+  color-scheme:light;
+  /* 日本語の書体を、PC に入っているものから順に使う。Windows は BIZ UDPゴシック → 游ゴシック → メイリオ、Mac はヒラギノ。
+     中国語や英語の Windows でも、日本語の書体が入っていれば漢字が日本語の字形で出る */
+  --font:"BIZ UDPGothic", "Yu Gothic UI", "Yu Gothic", YuGothic, Meiryo, "Hiragino Sans", "Hiragino Kaku Gothic ProN",
+         "Noto Sans JP", "Noto Sans CJK JP", sans-serif;
+  --mono:ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+}
+* { box-sizing:border-box; }
+html { font-size:17px; -webkit-text-size-adjust:100%; background:var(--bg); }
+body { margin:0; font-family:var(--font); color:var(--ink); background:var(--bg); line-height:1.85;
+  letter-spacing:.01em; overflow-wrap:anywhere; }
+.wrap { max-width:780px; margin:0 auto; padding:0 20px 3rem; }
+p, li, dd, td, th, figcaption { word-break:auto-phrase; }
+
+/* 見出し */
+.page-head { padding:2.2rem 0 1.4rem; border-bottom:2px solid var(--ink); margin-bottom:2rem; }
+.page-head .meta { margin:0 0 .4rem; font-size:.9rem; color:var(--ink-3); }
+.page-head h1 { font-size:1.7rem; line-height:1.45; margin:0; font-weight:800; }
+.page-head .sub { margin:.5rem 0 0; color:var(--ink-2); }
+h2 { font-size:1.32rem; line-height:1.5; margin:3rem 0 1rem; padding-bottom:.35rem; border-bottom:1px solid var(--rule-2); }
+h2::before { content:'▌'; color:var(--c-end); margin-right:.2rem; }
+h3 { font-size:1.08rem; line-height:1.5; margin:2rem 0 .6rem; }
+p { margin:0 0 1.05rem; }
+ul, ol { margin:0 0 1.05rem; padding-left:1.5rem; } li { margin:.25rem 0; }
+a { color:var(--c-info); text-decoration:underline; text-underline-offset:2px; }
+strong { font-weight:700; background:linear-gradient(transparent 62%, var(--mark) 62%); }
+code { font-family:var(--mono); font-size:.86em; background:var(--code-bg); padding:.08em .35em; border-radius:3px; }
+pre { background:var(--pre-bg); color:var(--pre-fg); padding:.9rem 1rem; border-radius:4px; overflow-x:auto;
+  white-space:pre-wrap; font-size:.9rem; line-height:1.7; margin:1rem 0 1.2rem; }
+pre code { background:none; padding:0; color:inherit; font-size:1em; }
+
+/* 目次 */
+.toc { border:1px solid var(--rule); border-radius:4px; padding:.8rem 1.2rem .2rem; margin:0 0 2rem; }
+.toc-t { margin:0 0 .3rem; font-weight:700; font-size:.92rem; color:var(--ink-2); }
+
+/* 囲み */
+.box { border-left:4px solid var(--k); background:var(--kb); padding:.75rem 1rem .1rem; margin:1.3rem 0; border-radius:0 4px 4px 0; }
+.box-h { margin:0 0 .4rem; font-weight:700; color:var(--k); font-size:.92rem; }
+.box-end   { --k:var(--c-end);   --kb:var(--bg-end); }
+.box-check { --k:var(--c-check); --kb:var(--bg-check); }
+.box-warn  { --k:var(--c-warn);  --kb:var(--bg-warn); }
+.box-note  { --k:var(--c-note);  --kb:var(--bg-note); font-size:.94rem; }
+.box-step  { --k:var(--c-step);  --kb:var(--bg-step); }
+.box-next  { --k:var(--c-next);  --kb:var(--bg-next); }
+
+/* 表。縦罫なしで上下だけ太線。はみ出す時だけ横にスクロールする */
+.tbl { overflow-x:auto; -webkit-overflow-scrolling:touch; margin:1.1rem 0 1.4rem; }
+table { border-collapse:collapse; font-size:.92rem; line-height:1.65; }
+table.full { width:100%; }
+th, td { padding:.45rem .8rem; text-align:left; vertical-align:top; border-bottom:1px solid var(--rule); }
+thead th { border-top:2px solid var(--ink); border-bottom:1px solid var(--ink); font-weight:700; }
+tbody th { font-weight:700; min-width:6em; }
+tr:last-child td, tr:last-child th { border-bottom:2px solid var(--ink); }
+
+/* 図の入れ物。中身は SVG・下の部品・画像のどれでもよい */
+figure { margin:1.5rem 0; }
+figcaption { font-size:.9rem; color:var(--ink-3); margin-top:.4rem; }
+figure svg { display:block; width:100%; height:auto; font-family:var(--font); }
+figure img { display:block; max-width:100%; height:auto; margin:0 auto; }
+.credit { font-size:.9rem; color:var(--ink-3); }
+
+/* 部品：縦の流れ図。矢印は文字なので、CSS が効かなくても順番は読める */
+.flow { padding:.9rem 1rem; border:1px solid var(--rule); border-radius:4px; }
+.flow-node { border:1px solid var(--rule-2); border-radius:3px; padding:.45rem .75rem; background:var(--bg-step); }
+.flow-name { font-weight:700; display:block; }
+.flow-sub { display:block; font-size:.9rem; color:var(--ink-3); }
+.flow-arrow { text-align:center; color:var(--ink-3); font-size:.9rem; padding:.2rem 0; }
+
+/* 部品：年表 */
+.timeline { list-style:none; margin:0; padding:.2rem 0 .2rem 1.4rem; border-left:3px solid var(--c-end); }
+.timeline li { position:relative; margin:0 0 .9rem; }
+.timeline li::before { content:''; position:absolute; left:-1.4rem; top:.55em; width:.8rem; height:.8rem;
+  margin-left:-.55rem; border-radius:50%; background:var(--bg); border:3px solid var(--c-end); }
+.timeline .when { display:block; font-weight:700; color:var(--c-end); }
+
+/* 部品：横に並べて比べるカード。狭い画面では縦に並ぶ */
+.cards { display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:.8rem; }
+.card { border:1px solid var(--rule-2); border-radius:4px; padding:.7rem .9rem; }
+.card-t { margin:0 0 .3rem; font-weight:700; }
+
+/* 手順 */
+ol.steps { padding-left:1.6rem; } ol.steps li { margin:0 0 .6rem; }
+
+/* 折りたたみ */
+details.fold { border:1px solid var(--rule); border-radius:4px; margin:1.1rem 0; }
+details.fold > summary { cursor:pointer; padding:.6rem .9rem; font-weight:600; color:var(--ink-2); }
+details.fold > div { padding:0 .9rem; }
+
+.src { font-size:.9rem; color:var(--ink-2); }
+
+@media (max-width:640px) {
+  html { font-size:16px; }
+  .wrap { padding:0 14px 3rem; }
+  .page-head h1 { font-size:1.4rem; }
+  h2 { font-size:1.18rem; }
+}
+@media print {
+  .box, .tbl, figure, pre, details, .card, .timeline li, ol.steps li, tr { break-inside:avoid; }
+  h2, h3, .box-h { break-after:avoid; }
+  p { orphans:2; widows:2; }
+  a { color:inherit; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="page-head">
+  <p class="meta">{{作成日}}</p>
+  <h1>{{題名}}</h1>
+  <p class="sub">{{この資料の目的を1文}}</p>
+</header>
+
+<div class="box box-end">
+  <p class="box-h">◢ 結論</p>
+  <ul>
+    <li>{{要点}}</li>
+  </ul>
+</div>
+
+<nav class="toc">
+  <p class="toc-t">目次</p>
+  <ol>
+    <li><a href="#s1">{{節の見出し}}</a></li>
+  </ol>
+</nav>
+
+<h2 id="s1">{{節の見出し（言いたいこと1文）}}</h2>
+<p>{{本文}}</p>
+
+<h2 id="src">出典と未確認の事項</h2>
+<ul class="src">
+  <li><a href="{{URL}}">{{出典の名前}}</a></li>
+</ul>
+
+</div>
+</body>
+</html>
+
+<!--
+部品の書き方。必要なものだけを本文に写して使う。使わない部品は写さない。
+
+囲み（見出しの記号は文字として書く。CSS が効かなくても意味が残る）
+<div class="box box-end"><p class="box-h">◢ 結論</p><p>…</p></div>
+<div class="box box-check"><p class="box-h">◤ 確認してほしいこと</p><ol><li>…</li></ol></div>
+<div class="box box-warn"><p class="box-h">[!] 注意</p><p>…</p></div>
+<div class="box box-note"><p class="box-h">^ 補足</p><p>…</p></div>
+<div class="box box-step"><p class="box-h">▶ 手順</p><ol class="steps"><li>…</li></ol></div>
+<div class="box box-next"><p class="box-h">◆ 次にやること</p><p>…</p></div>
+
+表
+<div class="tbl"><table>
+  <thead><tr><th>…</th><th>…</th></tr></thead>
+  <tbody><tr><th>…</th><td>…</td></tr></tbody>
+</table></div>
+
+縦の流れ図
+<figure><div class="flow">
+  <div class="flow-node"><span class="flow-name">…</span><span class="flow-sub">…</span></div>
+  <div class="flow-arrow">↓ …</div>
+  <div class="flow-node"><span class="flow-name">…</span></div>
+</div><figcaption>…</figcaption></figure>
+
+年表
+<figure><ol class="timeline">
+  <li><span class="when">1909年</span>…</li>
+</ol><figcaption>…</figcaption></figure>
+
+並べて比べるカード
+<figure><div class="cards">
+  <div class="card"><p class="card-t">…</p><p>…</p></div>
+</div><figcaption>…</figcaption></figure>
+
+SVG の図（地図・間取り・配置図・グラフなど、形を自由に描くとき）
+<figure><svg viewBox="0 0 640 400" role="img" aria-label="…">…</svg><figcaption>…</figcaption></figure>
+
+画像（再利用が認められたものだけ。data: 形式で埋め込む）
+<figure><img src="data:image/jpeg;base64,…" alt="…"><figcaption>…<br><span class="credit">出典・作者・ライセンス</span></figcaption></figure>
+
+折りたたみ
+<details class="fold"><summary>…</summary><div><p>…</p></div></details>
+-->
